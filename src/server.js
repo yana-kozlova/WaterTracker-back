@@ -1,12 +1,14 @@
 import express from 'express';
+import * as fs from 'fs';
 import pino from 'pino-http';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import { env } from './utils/env.js';
 import usersRouter from './routers/users.js';
-import swaggerDocument from '../docs/swagger.json' assert { type: "json"};
 
 const PORT = Number(env('PORT', '3000'));
+
+const swaggerDocument = JSON.parse(fs.readFileSync('./docs/swagger.json', 'utf-8'));
 
 export const startServer = () => {
   const app = express();
