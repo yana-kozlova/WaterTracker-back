@@ -3,8 +3,8 @@ import pino from 'pino-http';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import { env } from './utils/env.js';
-import usersRouter from './routers/users.js';
-import swaggerDocument from '../docs/swagger.json' assert { type: "json"};
+import userRouter from './routers/users.js';
+import swaggerDocument from '../docs/swagger.json' assert { type: 'json' };
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -22,7 +22,7 @@ export const startServer = () => {
     });
   });
 
-  app.use('/users', usersRouter);
+  app.use('/user', userRouter);
 
   app.use(
     pino({
@@ -47,6 +47,8 @@ export const startServer = () => {
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-    console.log(`Swagger UI docs available at http://localhost:${PORT}/api-docs`);
+    console.log(
+      `Swagger UI docs available at http://localhost:${PORT}/api-docs`,
+    );
   });
 };

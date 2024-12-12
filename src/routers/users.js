@@ -1,9 +1,14 @@
 import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
-import { getUsersController } from '../controllers/users.js';
+import {
+  getAllUsersController,
+  getUserByIdController,
+} from '../controllers/users.js';
 
-const usersRouter = Router();
+const userRouter = Router();
 
-usersRouter.get('/', ctrlWrapper(getUsersController));
+userRouter.get('/', ctrlWrapper(getAllUsersController));
 
-export default usersRouter;
+userRouter.get('/:id', ctrlWrapper(getUserByIdController));
+
+export default userRouter;
