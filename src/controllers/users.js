@@ -1,4 +1,4 @@
-import createHttpError from 'http-errors';
+
 import { getUsers } from '../services/users.js';
 
 export const getUsersController = async (req, res) => {
@@ -10,3 +10,5 @@ export const getUsersController = async (req, res) => {
     data: users,
   });
 };
+
+

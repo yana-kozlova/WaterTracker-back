@@ -5,6 +5,7 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import { env } from './utils/env.js';
 import usersRouter from './routers/users.js';
+import authRouter from './routers/auth.js';
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -25,7 +26,7 @@ export const startServer = () => {
   });
 
   app.use('/users', usersRouter);
-
+  app.use("/auth", authRouter);
   app.use(
     pino({
       transport: {
