@@ -4,6 +4,7 @@ import pino from 'pino-http';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import { env } from './utils/env.js';
+import usersRouter from './routers/users.js';
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -22,6 +23,8 @@ export const startServer = () => {
       message: 'Hello world!',
     });
   });
+
+  app.use('/users', usersRouter);
 
   app.use(
     pino({
