@@ -33,3 +33,26 @@ export const loginController = async (req,res) =>{
         }
       });
 };
+
+export const logoutController = async (req,res) =>{
+    if(req.cookies.sessionId){
+        await authServices.logout(req.cookies.sessionId);
+    }
+
+    res.clearCookie("sessionId");
+    res.clearCookie("refreshToken");
+
+    res.status(204).send();
+};
+
+export const refreshSessionController = async(req,res) =>{
+    const session = await authServices.refreshUserSession(req.cookies);
+    setupSession(res, session);
+    res.status(200).json({
+        status: 200,
+        message: "Successfully refresh session",
+        data:{
+            accessToken: session.accessToken,
+        }
+    });
+};

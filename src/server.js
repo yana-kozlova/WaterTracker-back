@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import { env } from './utils/env.js';
 import usersRouter from './routers/users.js';
 import authRouter from './routers/auth.js';
+import cookieParser from 'cookie-parser';
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -16,6 +17,7 @@ export const startServer = () => {
 
   app.use(express.json());
   app.use(cors());
+  app.use(cookieParser());
 
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
