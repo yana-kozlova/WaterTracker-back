@@ -21,8 +21,7 @@ export const startServer = () => {
       message: 'Hello world!',
     });
   });
-
-  app.use('/user', userRouter);
+  app.use('/users', userRouter);
 
   app.use(
     pino({
