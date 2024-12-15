@@ -125,32 +125,25 @@
             "description": "Successful operation",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
+                "schema": {"type": "object",
                   "properties": {
-                    "accessToken": {
-                      "type": "string"
+                    "status": {
+                      "type": "integer",
+                      "example": 200
                     },
-                    "email": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "gender": {
+                    "message": {
                       "type": "string",
-                      "enum": ["male", "female"]
+                      "example": "Successfully login user"
                     },
-                    "dailyNorm": {
-                      "type": "number"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "example": "bHvTdZr6Vn/T2XOVh3X7y74kQkejGX1EjYThjH0K"
+                        }
+                      }
                     }
-                  },
-                  "example": {
-                    "accessToken": "bHvTdZr6Vn/T2XOVh3X7y74kQkejGX1EjYThjH0K",
-                    "email": "1@gmail.com",
-                    "name": "Jane Doe",
-                    "gender": "female",
-                    "dailyNorm": 1500
                   }
                 }
               }
@@ -200,6 +193,27 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logout",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {}
+        },
+        "responses": {
+          "204": {
+            "description": "Successfully logout",
+            "content": {}
           },
           "500": {
             "description": "InternalServerError",
