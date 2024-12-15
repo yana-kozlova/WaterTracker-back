@@ -13,12 +13,12 @@ const setupSession = (res, session) => {
 };
 
 export const registerController = async (req, res) => {
-  const user = await authServices.register(req.body);
+  await authServices.register(req.body);
 
   res.status(201).json({
     status: 201,
     message: 'Successfully registered user!',
-    data: user,
+    // data: user,
   });
 };
 export const loginController = async (req, res) => {

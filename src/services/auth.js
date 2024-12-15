@@ -28,12 +28,7 @@ export const register = async (payload) => {
     ...payload,
     password: hashPassword,
   });
-  return {
-    dailyNorm: newUser.dailyNorm,
-    name: newUser.name,
-    gender: newUser.gender,
-    email: newUser.email,
-  };
+  return newUser;
 };
 
 export const login = async ({ email, password }) => {

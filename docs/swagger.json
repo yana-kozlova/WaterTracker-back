@@ -38,43 +38,8 @@
         },
         "responses": {
           "201": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "email": {
-                      "type": "string",
-                      "description": "User's email",
-                      "format": "email"
-                    },
-                    "name": {
-                      "type": "string",
-                      "description": "User's name",
-                      "example": "Jane Doe"
-                    },
-                    "gender": {
-                      "type": "string",
-                      "description": "User's gender",
-                      "enum": ["male", "female"],
-                      "example": "female"
-                    },
-                    "dailyNorm": {
-                      "type": "number",
-                      "description": "User's daily norm",
-                      "example": 1500
-                    }
-                  },
-                  "example": {
-                    "email": "1@gmail.com",
-                    "name": "Jane Doe",
-                    "gender": "female",
-                    "dailyNorm": 1500
-                  }
-                }
-              }
-            }
+            "description": "Successfully registered user!",
+            "content": {}
           },
           "400": {
             "description": "Bad request (invalid request body)",
@@ -164,25 +129,20 @@
                   "type": "object",
                   "properties": {
                     "accessToken": {
-                      "type": "string",
-                      "description": "User's token"
+                      "type": "string"
                     },
                     "email": {
-                      "type": "string",
-                      "description": "User's email"
+                      "type": "string"
                     },
                     "name": {
-                      "type": "string",
-                      "description": "User's name"
+                      "type": "string"
                     },
                     "gender": {
                       "type": "string",
-                      "description": "User's gender",
                       "enum": ["male", "female"]
                     },
                     "dailyNorm": {
-                      "type": "number",
-                      "description": "User's daily norm"
+                      "type": "number"
                     }
                   },
                   "example": {
