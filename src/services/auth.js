@@ -3,10 +3,7 @@ import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
 import SessionCollection from '../db/models/Session.js';
-import {
-  accessTokenLifetime,
-  refreshTokenLifetime,
-} from '../constants/index.js';
+import { accessTokenLifetime, refreshTokenLifetime } from '../constants/index.js';
 
 const createSession = () => {
   const accessToken = randomBytes(30).toString('base64');

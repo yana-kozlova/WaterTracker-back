@@ -84,22 +84,18 @@
                   "type": "object",
                   "properties": {
                     "status": {
-                      "type": "integer",
-                      "description": "HTTP status code",
-                      "example": 400
+                      "type": "integer"
                     },
                     "message": {
                       "type": "string",
-                      "description": "Error message",
-                      "example": "BadRequestError"
+                      "description": "Error message"
                     },
                     "data": {
                       "type": "object",
                       "properties": {
                         "message": {
                           "type": "string",
-                          "description": "Detailed error message",
-                          "example": "Bad Request"
+                          "description": "Detailed error message"
                         },
                         "errors": {
                           "type": "object",
@@ -126,7 +122,7 @@
                               "items": {
                                 "type": "string"
                               },
-                              "example": ["Password cannot be empty"]
+                              "example": ["Name cannot be empty"]
                             }
                           }
                         }
@@ -139,6 +135,114 @@
           },
           "409": {
             "description": "Email already used",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "description": "User's token"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "User's email"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "User's name"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "description": "User's gender",
+                      "enum": ["male", "female"]
+                    },
+                    "dailyNorm": {
+                      "type": "number",
+                      "description": "User's daily norm"
+                    }
+                  },
+                  "example": {
+                    "accessToken": "bHvTdZr6Vn/T2XOVh3X7y74kQkejGX1EjYThjH0K",
+                    "email": "1@gmail.com",
+                    "name": "Jane Doe",
+                    "gender": "female",
+                    "dailyNorm": 1500
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email or password is invalid",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "BadRequestError"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Bad Request"
+                        },
+                        "errors": {
+                          "type": "object",
+                          "properties": {
+                            "email": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "example": ["Email must be a valid email address"]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
             "content": {}
           }
         }
@@ -172,6 +276,23 @@
             "description": "User's gender",
             "enum": ["male", "female"],
             "example": "female"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "jane@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "Password1"
           }
         }
       }

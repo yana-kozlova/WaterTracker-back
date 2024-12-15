@@ -22,9 +22,7 @@ export const registerUserSchema = Joi.object({
   gender: Joi.string()
     .valid(...genderList)
     .messages({
-      'any.only': `Gender must be one of the following: ${genderList.join(
-        ', ',
-      )}`,
+      'any.only': `Gender must be one of the following: ${genderList.join(', ')}`,
     }),
 });
 
@@ -32,5 +30,7 @@ export const loginUserSchema = Joi.object({
   email: Joi.string().email().required().messages({
     'string.email': 'Email must be a valid email address',
   }),
-  password: Joi.string().required(),
+  password: Joi.string().required().messages({
+    'string.empty': 'Password cannot be empty',
+  }),
 });

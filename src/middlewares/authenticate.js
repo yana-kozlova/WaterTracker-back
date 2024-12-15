@@ -8,9 +8,7 @@ export const authenticate = async (req, res, next) => {
   const [bearer, token] = authHeader.split(' ');
 
   if (bearer !== 'Bearer') {
-    return next(
-      createHttpError(401, 'Authorization header must be type Bearer'),
-    );
+    return next(createHttpError(401, 'Authorization header must be type Bearer'));
   }
 
   const session = await findSession({ accessToken: token });

@@ -6,15 +6,11 @@ export const getUserById = async (id) => {
 };
 
 export const patchUser = async (id, payload, options = {}) => {
-  const updatedUser = await UserCollection.findOneAndUpdate(
-    { _id: id },
-    payload,
-    {
-      new: true,
-      includeResultMetadata: true,
-      ...options,
-    },
-  );
+  const updatedUser = await UserCollection.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+    includeResultMetadata: true,
+    ...options,
+  });
 
   if (!updatedUser || !updatedUser.value) return null;
 

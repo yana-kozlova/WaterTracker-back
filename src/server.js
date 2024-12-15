@@ -11,9 +11,7 @@ import cookieParser from 'cookie-parser';
 
 const PORT = Number(env('PORT', '3000'));
 
-const swaggerDocument = JSON.parse(
-  fs.readFileSync('./docs/swagger.json', 'utf-8'),
-);
+const swaggerDocument = JSON.parse(fs.readFileSync('./docs/swagger.json', 'utf-8'));
 
 export const startServer = () => {
   const app = express();
@@ -50,8 +48,6 @@ export const startServer = () => {
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-    console.log(
-      `Swagger UI docs available at http://localhost:${PORT}/api-docs`,
-    );
+    console.log(`Swagger UI docs available at http://localhost:${PORT}/api-docs`);
   });
 };
