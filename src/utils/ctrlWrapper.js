@@ -16,7 +16,6 @@ const ctrlWrapper = (ctrl) => {
         },
       };
 
-      // Отправляем ответ с соответствующим статусом
       res.status(status).json(errorResponse);
     }
   };
