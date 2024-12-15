@@ -5,7 +5,6 @@ export const getUserById = async (id) => {
   return user;
 };
 
-
 export const patchUser = async (id, payload, options = {}) => {
   const updatedUser = await UserCollection.findOneAndUpdate(
     { _id: id },
@@ -24,4 +23,3 @@ export const patchUser = async (id, payload, options = {}) => {
     isNew: Boolean(updatedUser?.lastErrorObject?.upserted),
   };
 };
-

@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { emailRegexp } from '../../constants/users.js';
+import { emailRegexp, genderList } from '../../constants/user.js';
 
 const userSchema = new Schema(
   {
@@ -15,7 +15,7 @@ const userSchema = new Schema(
     },
     gender: {
       type: String,
-      enum: ['woman', 'man'],
+      enum: genderList,
       default: 'woman',
     },
     email: {

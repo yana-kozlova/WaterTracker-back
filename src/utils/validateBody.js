@@ -1,19 +1,30 @@
-import createHttpError from "http-errors";
+export const validateBody = (schema) => async (req, res, next) => {
+  console.log(req.body);
+  try {
+    await schema.validateAsync(req.body, { abortEarly: false });
+    next();
+  } catch (err) {
+    console.log(err);
+    const errors = err.details?.reduce((acc, detail) => {
+      const key = detail.path[0];
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(detail.message);
+      return acc;
+    }, {});
 
-
- const validateBody = schema=>{
-    const func = async(req,res,next)=>{
-    try{
-        await schema.validateAsync(req.body, {
-            abortEarly: false,
-           });
-           next();
-    }
-    catch(error){
-        return next (createHttpError(400, error.message));
-    }
+    const errorResponse = {
+      status: 400,
+      message: 'BedRequestError',
+      data: {
+        message: 'Bed Request',
+        errors,
+      },
     };
-    return func;
+
+    res.status(400).json(errorResponse);
+  }
 };
 
 export default validateBody;

@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { authenticate } from '../middlewares/authenticate.js';
-import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import ctrlWrapper from '../utils/ctrlWrapper.js';
 import {
   getUserByIdController,
   patchUserController,
-} from '../controllers/users.js';
+} from '../controllers/user.js';
 import { upload } from '../middlewares/multer.js';
 
 const userRouter = Router();
