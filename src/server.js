@@ -5,7 +5,7 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import { env } from './utils/env.js';
 import { UPLOAD_DIR } from './constants/index.js';
-import usersRouter from './routers/users.js';
+import userRouter from './routers/users.js';
 import authRouter from './routers/auth.js';
 import cookieParser from 'cookie-parser';
 
@@ -30,7 +30,7 @@ export const startServer = () => {
       message: 'Hello world!',
     });
   });
-  app.use('/users', userRouter);
+  app.use('/user', userRouter);
   app.use("/auth", authRouter);
   app.use(
     pino({
