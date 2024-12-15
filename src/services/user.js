@@ -5,17 +5,12 @@ export const getUserById = async (id) => {
   return user;
 };
 
-
 export const patchUser = async (id, payload, options = {}) => {
-  const updatedUser = await UserCollection.findOneAndUpdate(
-    { _id: id },
-    payload,
-    {
-      new: true,
-      includeResultMetadata: true,
-      ...options,
-    },
-  );
+  const updatedUser = await UserCollection.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+    includeResultMetadata: true,
+    ...options,
+  });
 
   if (!updatedUser || !updatedUser.value) return null;
 
@@ -24,4 +19,3 @@ export const patchUser = async (id, payload, options = {}) => {
     isNew: Boolean(updatedUser?.lastErrorObject?.upserted),
   };
 };
-

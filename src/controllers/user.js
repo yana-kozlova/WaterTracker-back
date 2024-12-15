@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors';
-import { getUserById, patchUser } from '../services/users.js';
-import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { getUserById, patchUser } from '../services/user.js';
+import { saveFileToUploadDir } from '../utils/dir/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 import { env } from '../utils/env.js';
 
