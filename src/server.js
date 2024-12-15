@@ -4,13 +4,16 @@ import pino from 'pino-http';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import { env } from './utils/env.js';
-import usersRouter from './routers/users.js';
+import { UPLOAD_DIR } from './constants/index.js';
+import userRouter from './routers/users.js';
 import authRouter from './routers/auth.js';
 import cookieParser from 'cookie-parser';
 
 const PORT = Number(env('PORT', '3000'));
 
-const swaggerDocument = JSON.parse(fs.readFileSync('./docs/swagger.json', 'utf-8'));
+const swaggerDocument = JSON.parse(
+  fs.readFileSync('./docs/swagger.json', 'utf-8'),
+);
 
 export const startServer = () => {
   const app = express();
@@ -20,14 +23,14 @@ export const startServer = () => {
   app.use(cookieParser());
 
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+  app.use('/uploads', express.static(UPLOAD_DIR));
 
   app.get('/', (req, res) => {
     res.json({
       message: 'Hello world!',
     });
   });
-
-  app.use('/users', usersRouter);
+  app.use('/user', userRouter);
   app.use("/auth", authRouter);
   app.use(
     pino({
@@ -52,6 +55,8 @@ export const startServer = () => {
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-    console.log(`Swagger UI docs available at http://localhost:${PORT}/api-docs`);
+    console.log(
+      `Swagger UI docs available at http://localhost:${PORT}/api-docs`,
+    );
   });
 };

@@ -1,9 +1,22 @@
 import { Router } from 'express';
+import { authenticate } from '../middlewares/authenticate.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
-import { getUsersController } from '../controllers/users.js';
+import {
+  getUserByIdController,
+  patchUserController,
+} from '../controllers/users.js';
+import { upload } from '../middlewares/multer.js';
 
-const usersRouter = Router();
+const userRouter = Router();
 
-usersRouter.get('/', ctrlWrapper(getUsersController));
+userRouter.use(authenticate);
 
-export default usersRouter;
+userRouter.get('/:id', ctrlWrapper(getUserByIdController));
+
+userRouter.patch(
+  '/:id',
+  upload.single('avatarUrl'),
+  ctrlWrapper(patchUserController),
+);
+
+export default userRouter;

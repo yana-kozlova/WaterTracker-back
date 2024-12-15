@@ -1,8 +1,15 @@
 import { Schema, model } from 'mongoose';
 import { emailRegexp } from '../../constants/users.js';
 
-const usersSchema = new Schema(
+const userSchema = new Schema(
   {
+    avatarUrl: {
+      type: String,
+    },
+    dailyNorm: {
+      type: Number,
+      default: 1500,
+    },
     name: {
       type: String,
     },
@@ -28,5 +35,5 @@ const usersSchema = new Schema(
   },
 );
 
-const UsersCollection = model('user', usersSchema);
-export default UsersCollection;
+const UserCollection = model('user', userSchema);
+export default UserCollection;
