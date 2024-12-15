@@ -4,13 +4,15 @@ const ctrlWrapper = (ctrl) => {
       await ctrl(req, res, next);
     } catch (error) {
       const status = error.status || 500;
-      const message = error.message || 'InternalServerError';
+      const message = error.message || 'Internal Server Error';
+      const code = error.code || null;
 
       const errorResponse = {
         status,
         message,
         data: {
-          message: error.message || '',
+          message,
+          ...(code && { code }),
         },
       };
 

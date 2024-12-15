@@ -40,9 +40,15 @@ export const startServer = () => {
   });
 
   app.use((err, req, res, next) => {
-    res.status(500).json({
-      message: 'Something went wrong',
-      error: err.message,
+    const status = err.status || 500;
+    const message = err.message || 'InternalServerError';
+    res.status(status).json({
+      status,
+      message,
+      data: {
+        message: err.message || 'Something went wrong',
+        code: err.code || null,
+      },
     });
   });
 
