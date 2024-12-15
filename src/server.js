@@ -5,9 +5,9 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import { env } from './utils/env.js';
 import { UPLOAD_DIR } from './constants/index.js';
-
-import userRouter from './routers/users.js';
-// import swaggerDocument from '../docs/swagger.json' assert { type: 'json' };
+import usersRouter from './routers/users.js';
+import authRouter from './routers/auth.js';
+import cookieParser from 'cookie-parser';
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -20,6 +20,8 @@ export const startServer = () => {
 
   app.use(express.json());
   app.use(cors());
+  app.use(cookieParser());
+
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   app.use('/uploads', express.static(UPLOAD_DIR));
 
@@ -29,7 +31,7 @@ export const startServer = () => {
     });
   });
   app.use('/users', userRouter);
-
+  app.use("/auth", authRouter);
   app.use(
     pino({
       transport: {
