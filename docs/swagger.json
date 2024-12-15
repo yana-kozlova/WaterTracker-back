@@ -81,13 +81,6 @@
                                 "type": "string"
                               },
                               "example": ["Password cannot be empty"]
-                            },
-                            "name": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              },
-                              "example": ["Name cannot be empty"]
                             }
                           }
                         }
@@ -274,7 +267,7 @@
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
-        "required": ["email", "password", "name"],
+        "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string",
@@ -286,17 +279,6 @@
             "type": "string",
             "description": "User's password",
             "example": "Password1"
-          },
-          "name": {
-            "type": "string",
-            "description": "User's name",
-            "example": "Jane Doe"
-          },
-          "gender": {
-            "type": "string",
-            "description": "User's gender",
-            "enum": ["male", "female"],
-            "example": "female"
           }
         }
       },
