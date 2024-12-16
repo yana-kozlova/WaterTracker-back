@@ -261,6 +261,209 @@
           }
         }
       }
+    },
+    "/user": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user data",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "required": false,
+          "content": {}
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully found user data!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found user data!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "675f7894477c48f6cdcbf4d1"
+                        },
+                        "daily_norma": {
+                          "type": "number",
+                          "example": 15000
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Yana"
+                        },
+                        "gender": {
+                          "type": "string",
+                          "example": "yana3@gmail.com"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "675f7894477c48f6cdcbf4d1"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "$2b$10$zI7cHyK2HopUzBBKO5DGieuZ1PIx0ZU1KD2EnkHbKcDcETaszFROq"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2024-12-16T00:47:16.705Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2024-12-16T00:47:16.705Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token expired / Session not found",
+            "content": {}
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {}
+          }
+        }
+      },
+      "patch": {
+        "tags": ["User"],
+        "summary": "Update user data",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully patched a user!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully patched a user!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "675f7894477c48f6cdcbf4d1"
+                        },
+                        "daily_norma": {
+                          "type": "number",
+                          "example": 15000
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "User"
+                        },
+                        "gender": {
+                          "type": "string",
+                          "example": "male"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@gmail.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "$2b$10$zI7cHyK2HopUzBBKO5DGieuZ1PIx0ZU1KD2EnkHbKcDcETaszFROq"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2024-12-16T00:47:16.705Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2024-12-16T00:47:16.705Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "description": "Detailed error message"
+                        },
+                        "errors": {
+                          "type": "object",
+                          "properties": {
+                            "email": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "example": [
+                                "Email must be a valid email address",
+                                "Email does not match the required pattern"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token expired / Session not found",
+            "content": {}
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {}
+          }
+        }
+      }
     }
   },
   "components": {
@@ -296,6 +499,36 @@
             "type": "string",
             "description": "User's password",
             "example": "Password1"
+          }
+        }
+      },
+      "EditUserRequest": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "daily_norma": {
+            "type": "number",
+            "example": 15000
+          },
+          "name": {
+            "type": "string",
+            "example": "User"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          },
+          "email": {
+            "type": "string",
+            "example": "user@gmail.com"
+          },
+          "new_password": {
+            "type": "string",
+            "example": "Password1"
+          },
+          "old_password": {
+            "type": "string",
+            "example": "Password2"
           }
         }
       }
