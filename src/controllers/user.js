@@ -4,6 +4,7 @@ import { patchUser } from '../services/user.js';
 import { saveFileToUploadDir } from '../utils/dir/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 import { env } from '../utils/env.js';
+import { cropUserData } from '../utils/userData.js';
 
 export const getUserController = async (req, res) => {
   const user = req.user;
@@ -15,7 +16,7 @@ export const getUserController = async (req, res) => {
   res.status(200).json({
     status: 200,
     message: 'Successfully found user!',
-    data: user,
+    data: cropUserData(user),
   });
 };
 
@@ -32,7 +33,6 @@ export const patchUserController = async (req, res) => {
       ...req.body,
       ...(req.body.new_password && { password: hashPassword }),
     };
-
   } else {
     payload = { ...req.body };
   }
@@ -46,7 +46,7 @@ export const patchUserController = async (req, res) => {
   res.json({
     status: 200,
     message: `Successfully patched a user!`,
-    data: result.user,
+    data: cropUserData(result.user),
   });
 };
 
@@ -76,6 +76,6 @@ export const patchUserAvatarController = async (req, res) => {
   res.json({
     status: 200,
     message: `Successfully patched a user!`,
-    data: result.user,
+    data: cropUserData(result.user),
   });
 };

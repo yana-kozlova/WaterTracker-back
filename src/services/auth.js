@@ -17,7 +17,7 @@ const createSession = () => {
 };
 export const register = async (payload) => {
   const { email, password } = payload;
-  const user = await UsersCollection.findOne({ email });
+  const user = await findUser({ email });
 
   if (user) {
     throw createHttpError(409, 'Email already used');
@@ -32,7 +32,7 @@ export const register = async (payload) => {
 };
 
 export const login = async ({ email, password }) => {
-  const user = await UsersCollection.findOne({ email });
+  const user = await findUser({ email });
 
   if (!user) {
     throw createHttpError(401, 'Email or password is invalid');
@@ -47,10 +47,12 @@ export const login = async ({ email, password }) => {
 
   const newSession = createSession();
 
-  return SessionCollection.create({
+  const createdSession = await SessionCollection.create({
     userId: user._id,
     ...newSession,
   });
+
+  return { session: createdSession, user };
 };
 
 export const logout = async (sessionId) => {

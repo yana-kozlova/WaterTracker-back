@@ -23,7 +23,7 @@
     "/auth/register": {
       "post": {
         "tags": ["Auth"],
-        "summary": "User registration",
+        "summary": "User registration and login",
         "requestBody": {
           "description": "Registration's object",
           "required": true,
@@ -38,7 +38,53 @@
         "responses": {
           "201": {
             "description": "Successfully registered user!",
-            "content": {}
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully login user"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "example": "bHvTdZr6Vn/T2XOVh3X7y74kQkejGX1EjYThjH0K"
+                        },
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "User"
+                            },
+                            "gender": {
+                              "type": "string",
+                              "example": "male"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "user@gmail.com"
+                            },
+                            "daily_norma": {
+                              "type": "number",
+                              "example": 15000
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad request (invalid request body)",
@@ -133,6 +179,27 @@
                         "accessToken": {
                           "type": "string",
                           "example": "bHvTdZr6Vn/T2XOVh3X7y74kQkejGX1EjYThjH0K"
+                        },
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "User"
+                            },
+                            "gender": {
+                              "type": "string",
+                              "example": "male"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "user@gmail.com"
+                            },
+                            "daily_norma": {
+                              "type": "number",
+                              "example": 15000
+                            }
+                          }
                         }
                       }
                     }
@@ -288,14 +355,6 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "_id": {
-                          "type": "string",
-                          "example": "675f7894477c48f6cdcbf4d1"
-                        },
-                        "daily_norma": {
-                          "type": "number",
-                          "example": 15000
-                        },
                         "name": {
                           "type": "string",
                           "example": "User"
@@ -308,17 +367,9 @@
                           "type": "string",
                           "example": "user@gmail.com"
                         },
-                        "password": {
-                          "type": "string",
-                          "example": "$2b$10$zI7cHyK2HopUzBBKO5DGieuZ1PIx0ZU1KD2EnkHbKcDcETaszFROq"
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "example": "2024-12-16T00:47:16.705Z"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "example": "2024-12-16T00:47:16.705Z"
+                        "daily_norma": {
+                          "type": "number",
+                          "example": 15000
                         }
                       }
                     }
@@ -370,14 +421,6 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "_id": {
-                          "type": "string",
-                          "example": "675f7894477c48f6cdcbf4d1"
-                        },
-                        "daily_norma": {
-                          "type": "number",
-                          "example": 15000
-                        },
                         "name": {
                           "type": "string",
                           "example": "User"
@@ -390,17 +433,9 @@
                           "type": "string",
                           "example": "user@gmail.com"
                         },
-                        "password": {
-                          "type": "string",
-                          "example": "$2b$10$zI7cHyK2HopUzBBKO5DGieuZ1PIx0ZU1KD2EnkHbKcDcETaszFROq"
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "example": "2024-12-16T00:47:16.705Z"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "example": "2024-12-16T00:47:16.705Z"
+                        "daily_norma": {
+                          "type": "number",
+                          "example": 15000
                         }
                       }
                     }
@@ -491,7 +526,7 @@
             "type": "string",
             "description": "User's email",
             "format": "email",
-            "example": "jane@gmail.com"
+            "example": "user@gmail.com"
           },
           "password": {
             "type": "string",
