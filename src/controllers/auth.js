@@ -1,4 +1,5 @@
 import * as authServices from '../services/auth.js';
+import { cropUserData } from '../utils/userData.js';
 
 const setupSession = (res, session) => {
   const { _id, refreshToken, refreshTokenValidUntil } = session;
@@ -13,16 +14,23 @@ const setupSession = (res, session) => {
 };
 
 export const registerController = async (req, res) => {
-  await authServices.register(req.body);
+  const user = await authServices.register(req.body);
+  const session = await authServices.login(req.body);
+
+  setupSession(res, session);
 
   res.status(201).json({
     status: 201,
     message: 'Successfully registered user!',
-    // data: user,
+    data: {
+      accessToken: session.accessToken,
+      user: cropUserData(user),
+    },
   });
 };
+
 export const loginController = async (req, res) => {
-  const session = await authServices.login(req.body);
+  const { session, user } = await authServices.login(req.body);
 
   setupSession(res, session);
 
@@ -31,6 +39,7 @@ export const loginController = async (req, res) => {
     message: 'Successfully login user',
     data: {
       accessToken: session.accessToken,
+      user: cropUserData(user),
     },
   });
 };
