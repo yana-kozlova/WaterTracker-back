@@ -30,3 +30,10 @@ export const updateUserSchema = Joi.object({
       'any.only': `Gender must be one of the following: ${genderList.join(', ')}`,
     }),
 });
+
+export const updateWaterRateSchema = Joi.object({
+  daily_norma: Joi.number().min(0).max(15000).messages({
+    'string.min': 'Daily Norma should have at least {#limit} characters',
+    'string.max': 'Daily Norma should have at most {#limit} characters',
+  }),
+});
