@@ -19,6 +19,6 @@ userRouter.get('/', ctrlWrapper(getUserController));
 
 userRouter.patch('/', validateBody(updateUserSchema), ctrlWrapper(patchUserController));
 userRouter.patch('/waterRate', validateBody(updateWaterRateSchema), ctrlWrapper(patchWaterRateController));
-userRouter.patch('/avatar', upload.single('avatarUrl'), ctrlWrapper(patchUserAvatarController));
+userRouter.patch('/avatar', upload.single('avatar_url'), ctrlWrapper(patchUserAvatarController));
 
 export default userRouter;

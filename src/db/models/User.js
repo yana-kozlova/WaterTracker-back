@@ -3,7 +3,7 @@ import { emailRegexp, genderList } from '../../constants/user.js';
 
 const userSchema = new Schema(
   {
-    avatarUrl: {
+    avatar_url: {
       type: String,
     },
     daily_norma: {
