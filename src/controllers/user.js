@@ -21,18 +21,23 @@ export const getUserController = async (req, res) => {
 
 export const patchUserController = async (req, res) => {
   const _id = req.user.id;
+  let payload;
 
   if (req.body.old_password) {
     const isPasswordValid = await bcrypt.compare(req.body.old_password, req.user.password);
     if (!isPasswordValid) throw createHttpError(400, 'Old password is incorrect');
+    const hashPassword = await bcrypt.hash(req.body.new_password, 10);
+
+    payload = {
+      ...req.body,
+      ...(req.body.new_password && { password: hashPassword }),
+    };
+
+  } else {
+    payload = { ...req.body };
   }
 
-  const hashPassword = await bcrypt.hash(req.body.new_password, 10);
-
-  const result = await patchUser(_id, {
-    ...req.body,
-    ...(req.body.new_password && { password: hashPassword }),
-  });
+  const result = await patchUser(_id, payload);
 
   if (!result) {
     throw createHttpError(404, 'User not found');
@@ -44,7 +49,6 @@ export const patchUserController = async (req, res) => {
     data: result.user,
   });
 };
-
 
 export const patchUserAvatarController = async (req, res) => {
   const _id = req.user.id;
