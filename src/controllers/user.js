@@ -66,7 +66,7 @@ export const patchUserAvatarController = async (req, res) => {
 
   const result = await patchUser(_id, {
     ...req.body,
-    avatarUrl: photoUrl,
+    avatar_url: photoUrl,
   });
 
   if (!result) {
@@ -75,7 +75,23 @@ export const patchUserAvatarController = async (req, res) => {
 
   res.json({
     status: 200,
-    message: `Successfully patched a user!`,
+    message: `User's avatar is successfully updated!`,
+    data: cropUserData(result.user),
+  });
+};
+
+export const patchWaterRateController = async (req, res) => {
+  const _id = req.user.id;
+
+  const result = await patchUser(_id, { ...req.body });
+
+  if (!result) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  res.json({
+    status: 200,
+    message: `Daily Norma is successfully updated!`,
     data: cropUserData(result.user),
   });
 };
