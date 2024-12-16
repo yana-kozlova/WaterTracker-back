@@ -5,7 +5,7 @@
     "title": "WaterTracker",
     "description": "Трекер води є веб-застосунком, який дозволяє користувачеві стежити за своїм щоденним вживанням води. Застосунок має наступні функціональні компоненти: Головна сторінка, Журнал води та Налаштування."
   },
-  "servers": [{ "url": "http://localhost:3000" }, {"url": "https://watertracker-back-i1qk.onrender.com"}],
+  "servers": [{ "url": "http://localhost:3000" }, { "url": "https://watertracker-back-i1qk.onrender.com" }],
   "tags": [
     {
       "name": "Auth",
@@ -24,7 +24,6 @@
       "post": {
         "tags": ["Auth"],
         "summary": "User registration",
-        "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
@@ -102,7 +101,6 @@
       "post": {
         "tags": ["Auth"],
         "summary": "User login",
-        "security": [{ "Bearer": [] }],
         "requestBody": {
           "required": true,
           "content": {
