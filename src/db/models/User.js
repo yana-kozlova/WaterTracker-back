@@ -6,9 +6,9 @@ const userSchema = new Schema(
     avatarUrl: {
       type: String,
     },
-    dailyNorm: {
+    daily_norma: {
       type: Number,
-      default: 1500,
+      default: 15000,
     },
     name: {
       type: String,

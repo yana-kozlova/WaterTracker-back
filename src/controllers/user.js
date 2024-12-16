@@ -1,12 +1,12 @@
+import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
-import { getUserById, patchUser } from '../services/user.js';
+import { patchUser } from '../services/user.js';
 import { saveFileToUploadDir } from '../utils/dir/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 import { env } from '../utils/env.js';
 
-export const getUserByIdController = async (req, res) => {
-  const { id: _id } = req.params;
-  const user = await getUserById(_id);
+export const getUserController = async (req, res) => {
+  const user = req.user;
 
   if (!user) {
     throw createHttpError(404, 'User not found');
@@ -20,7 +20,35 @@ export const getUserByIdController = async (req, res) => {
 };
 
 export const patchUserController = async (req, res) => {
-  const { id: _id } = req.params;
+  const _id = req.user.id;
+
+  if (req.body.old_password) {
+    const isPasswordValid = await bcrypt.compare(req.body.old_password, req.user.password);
+    if (!isPasswordValid) throw createHttpError(400, 'Old password is incorrect');
+  }
+
+  const hashPassword = await bcrypt.hash(req.body.new_password, 10);
+
+  const result = await patchUser(_id, {
+    ...req.body,
+    ...(req.body.new_password && { password: hashPassword }),
+  });
+
+  if (!result) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  res.json({
+    status: 200,
+    message: `Successfully patched a user!`,
+    data: result.user,
+  });
+};
+
+
+export const patchUserAvatarController = async (req, res) => {
+  const _id = req.user.id;
+
   const avatar = req.file;
   let photoUrl;
 
@@ -38,10 +66,9 @@ export const patchUserController = async (req, res) => {
   });
 
   if (!result) {
-    // next(createHttpError(404, 'User not found'));
-    // return;
     throw createHttpError(404, 'User not found');
   }
+
   res.json({
     status: 200,
     message: `Successfully patched a user!`,
