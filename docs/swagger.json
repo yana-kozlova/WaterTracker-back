@@ -300,15 +300,15 @@
                         },
                         "name": {
                           "type": "string",
-                          "example": "Yana"
+                          "example": "User"
                         },
                         "gender": {
                           "type": "string",
-                          "example": "yana3@gmail.com"
+                          "example": "male"
                         },
                         "email": {
                           "type": "string",
-                          "example": "675f7894477c48f6cdcbf4d1"
+                          "example": "user@gmail.com"
                         },
                         "password": {
                           "type": "string",
