@@ -648,7 +648,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "avatarUrl": {
+                  "avatar_url": {
                     "type": "string",
                     "format": "binary",
                     "description": "The avatar file to upload."
