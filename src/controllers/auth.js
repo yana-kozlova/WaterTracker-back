@@ -15,13 +15,11 @@ const setupSession = (res, session) => {
 
 export const registerController = async (req, res) => {
   const user = await authServices.register(req.body);
-  const session = await authServices.login(req.body);
-
-  setupSession(res, session);
+  const { session } = await authServices.login(req.body);
 
   res.status(201).json({
     status: 201,
-    message: 'Successfully registered user!',
+    message: 'Successfully registered and logged user!',
     data: {
       accessToken: session.accessToken,
       user: cropUserData(user),
@@ -57,7 +55,9 @@ export const logoutController = async (req, res) => {
 
 export const refreshSessionController = async (req, res) => {
   const session = await authServices.refreshUserSession(req.cookies);
+
   setupSession(res, session);
+
   res.status(200).json({
     status: 200,
     message: 'Successfully refresh session',

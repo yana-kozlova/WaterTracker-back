@@ -509,7 +509,7 @@
             "type": "string",
             "description": "User's email",
             "format": "email",
-            "example": "jane@gmail.com"
+            "example": "user@gmail.com"
           },
           "password": {
             "type": "string",
