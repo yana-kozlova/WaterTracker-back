@@ -1,4 +1,5 @@
 import * as authServices from '../services/auth.js';
+import { generateAuthUrl } from '../utils/googleOAuth2.js';
 import { cropUserData } from '../utils/userData.js';
 
 const setupSession = (res, session) => {
@@ -61,6 +62,49 @@ export const refreshSessionController = async (req, res) => {
   res.status(200).json({
     status: 200,
     message: 'Successfully refresh session',
+    data: {
+      accessToken: session.accessToken,
+    },
+  });
+};
+
+export const requestResetEmailController = async (req, res) => {
+  await authServices.requestResetToken(req.body.email);
+  res.json({
+    message: 'Reset password email was successfully sent!',
+    status: 200,
+    data: {},
+  });
+};
+
+export const resetPasswordController = async (req, res) => {
+  await authServices.resetPassword(req.body);
+  res.json({
+    message: 'Password was successfully reset!',
+    status: 200,
+    data: {},
+  });
+};
+
+export const getGoogleOAuthUrlController = async (req, res) => {
+  const url = generateAuthUrl();
+
+  res.json({
+    status: 200,
+    message: 'Successfully get Google OAuth url',
+    data: {
+      url,
+    },
+  });
+};
+
+export const loginWithGoogleController = async (req, res) => {
+  const session = await authServices.loginOrSignupWithGoogle(req.body.code);
+
+  setupSession(res, session);
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully logged in via Google OAuth!',
     data: {
       accessToken: session.accessToken,
     },
