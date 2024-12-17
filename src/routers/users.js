@@ -11,14 +11,13 @@ import { upload } from '../middlewares/multer.js';
 import validateBody from '../utils/validateBody.js';
 import { updateUserSchema, updateWaterRateSchema } from '../validation/user.js';
 
-const userRouter = Router();
+const usersRouter = Router();
 
-userRouter.use(authenticate);
+usersRouter.use(authenticate);
 
-userRouter.get('/', ctrlWrapper(getUserController));
+usersRouter.get('/users/current', ctrlWrapper(getUserController));
+usersRouter.patch('/users/current', validateBody(updateUserSchema), ctrlWrapper(patchUserController));
+usersRouter.patch('/users/water-rate', validateBody(updateWaterRateSchema), ctrlWrapper(patchWaterRateController));
+usersRouter.patch('/users/avatar', upload.single('avatar_url'), ctrlWrapper(patchUserAvatarController));
 
-userRouter.patch('/', validateBody(updateUserSchema), ctrlWrapper(patchUserController));
-userRouter.patch('/waterRate', validateBody(updateWaterRateSchema), ctrlWrapper(patchWaterRateController));
-userRouter.patch('/avatar', upload.single('avatar_url'), ctrlWrapper(patchUserAvatarController));
-
-export default userRouter;
+export default usersRouter;

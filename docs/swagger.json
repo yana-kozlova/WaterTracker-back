@@ -16,8 +16,8 @@
       "description": "Authenticate a user using a Google OAuth code. Logs in an existing user or registers a new one."
     },
     {
-      "name": "User",
-      "description": "User's endpoints"
+      "name": "Users",
+      "description": "Users endpoints"
     },
     {
       "name": "Water"
@@ -540,9 +540,9 @@
         }
       }
     },
-    "/user": {
+    "/users/current": {
       "get": {
-        "tags": ["User"],
+        "tags": ["Users"],
         "summary": "Get user data",
         "security": [{ "Bearer": [] }],
         "requestBody": {
@@ -606,7 +606,7 @@
         }
       },
       "patch": {
-        "tags": ["User"],
+        "tags": ["Users"],
         "summary": "Update user data",
         "security": [{ "Bearer": [] }],
         "requestBody": {
@@ -719,9 +719,9 @@
         }
       }
     },
-    "/user/waterRate": {
+    "/users/water-rate": {
       "patch": {
-        "tags": ["User"],
+        "tags": ["Users"],
         "summary": "Update user Daily Norma",
         "security": [{ "Bearer": [] }],
         "requestBody": {
@@ -841,9 +841,9 @@
         }
       }
     },
-    "/user/avatar": {
+    "/users/avatar": {
       "patch": {
-        "tags": ["User"],
+        "tags": ["Users"],
         "summary": "Update user Avatar",
         "security": [{ "Bearer": [] }],
         "requestBody": {
