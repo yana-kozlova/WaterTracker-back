@@ -1,15 +1,23 @@
 import { Schema, model } from 'mongoose';
-import { emailRegexp } from '../../constants/users.js';
+import { emailRegexp, genderList } from '../../constants/user.js';
 
-const usersSchema = new Schema(
+const userSchema = new Schema(
   {
+    avatar_url: {
+      type: String,
+    },
+    daily_norma: {
+      type: Number,
+      default: 15000,
+    },
     name: {
       type: String,
+      default: '',
     },
     gender: {
       type: String,
-      enum: ['woman', 'man'],
-      default: 'woman',
+      enum: genderList,
+      default: 'female',
     },
     email: {
       type: String,
@@ -28,5 +36,5 @@ const usersSchema = new Schema(
   },
 );
 
-const UsersCollection = model('user', usersSchema);
-export default UsersCollection;
+const UserCollection = model('user', userSchema);
+export default UserCollection;
