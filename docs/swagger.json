@@ -63,7 +63,7 @@
                           "properties": {
                             "name": {
                               "type": "string",
-                              "example": "User"
+                              "example": ""
                             },
                             "gender": {
                               "type": "string",
