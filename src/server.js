@@ -19,7 +19,7 @@ export const startServer = () => {
   app.use(express.json());
   app.use(
     cors({
-      origin: ['https://water-tracker-front.vercel.app', 'http://localhost:3000'],
+      origin: ['https://water-tracker-front.vercel.app', 'http://localhost:5173'],
       credentials: true, // Разрешаем куки
     }),
   );
