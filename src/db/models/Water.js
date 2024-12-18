@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { handleSaveError, setUpdateSettings } from './hooks.js';
 
 const addWaterSchema = new Schema(
   {
@@ -21,6 +22,12 @@ const addWaterSchema = new Schema(
     versionKey: false,
   },
 );
+
+sessionSchema.post('save', handleSaveError);
+
+sessionSchema.pre('findOneAndUpdate', setUpdateSettings);
+
+sessionSchema.post('findOneAndUpdate', handleSaveError);
 
 const WaterCollection = model('water', addWaterSchema);
 export default WaterCollection;

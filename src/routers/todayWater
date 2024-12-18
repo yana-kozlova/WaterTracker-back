@@ -3,6 +3,7 @@ import { authenticate } from '../middlewares/authenticate.js';
 import validateBody from '../utils/validateBody.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import ctrlWrapper from '../utils/ctrlWrapper.js';
+import { addWaterSchema } from '../validation/water.js';
 
 
 const todayWaterRouter = Router();
@@ -10,7 +11,7 @@ const todayWaterRouter = Router();
 
 todayWaterRouter.use(authenticate);
 
-todayWaterRouter.post('/add', ctrlWrapper(addWaterSchema));
+todayWaterRouter.post('/add', validateBody(addWaterSchema));
 todayWaterRouter.delete('/:id',isValidId, validateBody(), ctrlWrapper());
 todayWaterRouter.patch('/edit/:id',isValidId, validateBody(), ctrlWrapper());
 
