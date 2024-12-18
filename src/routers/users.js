@@ -15,7 +15,7 @@ const usersRouter = Router();
 
 usersRouter.use(authenticate);
 
-usersRouter.get('/users', ctrlWrapper(getUserController));
+usersRouter.get('/users/current', ctrlWrapper(getUserController));
 usersRouter.patch('/users/current', validateBody(updateUserSchema), ctrlWrapper(patchUserController));
 usersRouter.patch('/users/water-rate', validateBody(updateWaterRateSchema), ctrlWrapper(patchWaterRateController));
 usersRouter.patch('/users/avatar', upload.single('avatar_url'), ctrlWrapper(patchUserAvatarController));
