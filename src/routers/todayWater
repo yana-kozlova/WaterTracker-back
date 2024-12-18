@@ -9,8 +9,8 @@ const todayWaterRouter = Router();
 todayWaterRouter.use(authenticate);
 
 todayWaterRouter.post('/add', ctrlWrapper());
-todayWaterRouter.delete('/delete', validateBody(), ctrlWrapper());
-todayWaterRouter.patch('/edit', validateBody(), ctrlWrapper());
+todayWaterRouter.delete('/:id', validateBody(), ctrlWrapper());
+todayWaterRouter.patch('/edit/:id', validateBody(), ctrlWrapper());
 
 
 export default todayWaterRouter;
