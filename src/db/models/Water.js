@@ -13,7 +13,7 @@ const addWaterSchema = new Schema(
       required: true,
     },
     amount: {
-      type: number,
+      type: Number,
       required: true,
     },
   },
@@ -23,11 +23,11 @@ const addWaterSchema = new Schema(
   },
 );
 
-sessionSchema.post('save', handleSaveError);
+addWaterSchema.post('save', handleSaveError);
 
-sessionSchema.pre('findOneAndUpdate', setUpdateSettings);
+addWaterSchema.pre('findOneAndUpdate', setUpdateSettings);
 
-sessionSchema.post('findOneAndUpdate', handleSaveError);
+addWaterSchema.post('findOneAndUpdate', handleSaveError);
 
 const WaterCollection = model('water', addWaterSchema);
 export default WaterCollection;

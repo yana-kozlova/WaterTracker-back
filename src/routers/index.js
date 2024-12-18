@@ -2,7 +2,9 @@ import { Router } from 'express';
 
 import authRouter from './auth.js';
 import usersRouter from './users.js';
-import todayWaterRouter from './users.js';
+import todayWaterRouter from './todayWater.js';
+
+
 
 const router = Router();
 
