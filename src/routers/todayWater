@@ -1,0 +1,17 @@
+import { Router } from 'express';
+import { authenticate } from '../middlewares/authenticate.js';
+import validateBody from '../utils/validateBody.js';
+
+
+const todayWaterRouter = Router();
+
+
+todayWaterRouter.use(authenticate);
+
+todayWaterRouter.post('/add', ctrlWrapper());
+todayWaterRouter.delete('/delete', validateBody(), ctrlWrapper());
+todayWaterRouter.patch('/edit', validateBody(), ctrlWrapper());
+
+
+export default todayWaterRouter;
+
