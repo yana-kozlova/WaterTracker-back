@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { authenticate } from '../middlewares/authenticate.js';
 import validateBody from '../utils/validateBody.js';
+import { isValidId } from '../middlewares/isValidId.js';
+import ctrlWrapper from '../utils/ctrlWrapper.js';
 
 
 const todayWaterRouter = Router();
@@ -8,9 +10,9 @@ const todayWaterRouter = Router();
 
 todayWaterRouter.use(authenticate);
 
-todayWaterRouter.post('/add', ctrlWrapper());
-todayWaterRouter.delete('/:id', validateBody(), ctrlWrapper());
-todayWaterRouter.patch('/edit/:id', validateBody(), ctrlWrapper());
+todayWaterRouter.post('/add', ctrlWrapper(addWaterSchema));
+todayWaterRouter.delete('/:id',isValidId, validateBody(), ctrlWrapper());
+todayWaterRouter.patch('/edit/:id',isValidId, validateBody(), ctrlWrapper());
 
 
 export default todayWaterRouter;
