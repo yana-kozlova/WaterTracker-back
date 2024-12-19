@@ -26,10 +26,19 @@ export const loginUserSchema = Joi.object({
 });
 
 export const requestResetEmailSchema = Joi.object({
-  email: Joi.string().email().required(),
+  email: Joi.string().email().required().messages({
+    'string.email': 'Email must be a valid email address',
+    'any.required': 'Email is required',
+    'string.empty': 'Email cannot be empty',
+  }),
 });
 export const resetPasswordSchema = Joi.object({
-  password: Joi.string().required(),
+  password: Joi.string().min(8).max(64).required().messages({
+    'any.required': 'Password is required',
+    'string.min': 'Password should have at least {#limit} characters',
+    'string.max': 'Password should have at most {#limit} characters',
+    'string.empty': 'Password cannot be empty',
+  }),
   token: Joi.string().required(),
 });
 export const loginWithGoogleOAuthSchema = Joi.object({
