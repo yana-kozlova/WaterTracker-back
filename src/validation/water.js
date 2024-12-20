@@ -5,3 +5,8 @@ export const addWaterSchema = Joi.object({
   date: Joi.string().required(),
 });
 
+export const updateWaterSchema = Joi.object({
+  amount: Joi.number(),
+  date: Joi.string(),
+});
+
