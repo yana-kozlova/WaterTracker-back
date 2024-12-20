@@ -1,5 +1,6 @@
 import UserCollection from '../db/models/User.js';
 import WaterCollection from '../db/models/Water.js';
+import monthStatsCollection from '../db/models/monthStats.js';
 
 export const addWater = async (payload) => {
   const { amount, date, userId } = await WaterCollection.create(payload);
@@ -11,13 +12,7 @@ export const addWater = async (payload) => {
   console.log(typeof date);
 
   const servingsCount = await WaterCollection.aggregate([
-    // {
-    //   $project: {
-    //     dateOnly: {
-    //       $dateToString: { format: "%Y-%m-%d", date: date }
-    //     }
-    //   }
-    // },
+
     { $match: { userId: userId } },
     {
       $group: {
@@ -34,7 +29,11 @@ export const addWater = async (payload) => {
   const totalAmount = servingsCount[0].totalAmount;
   const progressDailyNorma = (totalAmount * 100) / daily_norma;
 
-  return { amount, date, userId, stats: { daily_norma, servings, totalAmount, progressDailyNorma } };
+
+
+  await monthStatsCollection.create()
+
+  return { amount, date, userId, stats: { date,userId,daily_norma, servings, progressDailyNorma } };
 };
 
 export const deleteWater = async ({ _id, userId }) => {
