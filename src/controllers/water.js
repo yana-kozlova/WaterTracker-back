@@ -1,11 +1,9 @@
 import { addWater } from "../services/water.js";
 
 export const addWaterController = async (req, res) => {
-  const user = req.user;
   const { _id: userId } = req.user;
-  console.log(user)
 
-  const data = await addWater(_id, payload);
+  const data = await addWater({...req.body, userId});
 
   res.status(201).json({
     status: 201,
