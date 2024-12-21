@@ -9,7 +9,6 @@ export const addWaterController = async (req, res) => {
     status: 201,
     message: 'Successfully created record amount of water!',
     data,
-
   });
 };
 
@@ -29,12 +28,13 @@ export const deleteWaterController = async (req, res) => {
 export const updateWaterController = async (req, res) => {
   const { id: _id } = req.params;
   const { _id: userId } = req.user;
-  const payload = req.body;
+  const { date, amount } = req.body;
 
   const result = await updateWater({
     _id,
     userId,
-    payload,
+    date,
+    amount,
   });
 
   if (!result) {
