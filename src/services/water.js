@@ -54,7 +54,7 @@ export const addWater = async (payload) => {
   //   await monthStatsCollection.create({ userId, daily_norma, ...stats });
   // }
   console.log(userMonthStats);
-  return ();
+  return data;
 };
 
 export const deleteWater = async ({ _id, userId }) => {
