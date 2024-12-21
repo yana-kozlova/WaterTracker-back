@@ -1,6 +1,6 @@
 import express from 'express';
 import * as fs from 'fs';
-import pino from 'pino-http';
+// import pino from 'pino-http';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import router from './routers/index.js';
@@ -25,13 +25,13 @@ export const startServer = () => {
   );
   app.use(cookieParser());
 
-  app.use(
-    pino({
-      transport: {
-        target: 'pino-pretty',
-      },
-    }),
-  );
+  // app.use(
+  //   pino({
+  //     transport: {
+  //       target: 'pino-pretty',
+  //     },
+  //   }),
+  // );
 
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   app.use('/uploads', express.static(UPLOAD_DIR));
