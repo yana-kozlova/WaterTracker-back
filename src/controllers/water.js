@@ -1,15 +1,15 @@
-import { addWater, deleteWater, updateWater } from "../services/water.js";
+import { addWater, deleteWater, updateWater } from '../services/water.js';
+import createHttpError from 'http-errors';
+export const addWaterController = async (req, res) => {
+  const { _id: userId } = req.user;
 
-export const addWaterController = async (req, res) => {  const { _id: userId } = req.user;
-
-
-  const data = await addWater({...req.body, userId});
-
+  const data = await addWater({ ...req.body, userId });
 
   res.status(201).json({
     status: 201,
     message: 'Successfully created record amount of water!',
     data,
+
   });
 };
 
