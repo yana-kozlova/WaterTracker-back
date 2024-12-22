@@ -7,15 +7,15 @@ import { addWaterSchema, updateWaterSchema } from '../validation/water.js';
 import { addWaterController, deleteWaterController, updateWaterController } from '../controllers/water.js';
 
 
-const todayWaterRouter = Router();
+const waterRouter = Router();
 
 
-todayWaterRouter.use(authenticate);
+waterRouter.use(authenticate);
 
-todayWaterRouter.post('/add', validateBody(addWaterSchema),ctrlWrapper(addWaterController));
-todayWaterRouter.delete('/:id',isValidId, ctrlWrapper(deleteWaterController));
-todayWaterRouter.patch('/edit/:id',isValidId, validateBody(updateWaterSchema), ctrlWrapper(updateWaterController));
+waterRouter.post('/add', validateBody(addWaterSchema),ctrlWrapper(addWaterController));
+waterRouter.delete('/:id',isValidId, ctrlWrapper(deleteWaterController));
+waterRouter.patch('/edit/:id',isValidId, validateBody(updateWaterSchema), ctrlWrapper(updateWaterController));
 
 
-export default todayWaterRouter;
+export default waterRouter;
 

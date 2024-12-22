@@ -1,7 +1,6 @@
 import { addWater, deleteWater, updateWater } from '../services/water.js';
 import createHttpError from 'http-errors';
 
-
 export const addWaterController = async (req, res) => {
   const { _id: userId } = req.user;
 
@@ -18,13 +17,16 @@ export const deleteWaterController = async (req, res) => {
   const { id: _id } = req.params;
   const { _id: userId } = req.user;
 
-  const result = await deleteWater({ _id, userId });
+  const data = await deleteWater({ _id, userId });
 
-  if (!result) {
-    throw createHttpError(404, `Water id=${_id} not found`);
+  if (!data) {
+    throw createHttpError(404, 'Record not found or already deleted');
   }
 
-  res.status(204).send();
+  res.status(204).json({
+    status: 204,
+    data,
+  });
 };
 
 export const updateWaterController = async (req, res) => {
