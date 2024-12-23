@@ -1001,7 +1001,7 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "waterItems": {
+                        "waterList": {
                           "type": "object",
                           "properties": {
                             "_id": {
@@ -1030,27 +1030,6 @@
                               "type": "string",
                               "format": "date-time",
                               "example": "2024-12-23T12:18:49.279Z"
-                            }
-                          }
-                        },
-                        "dayStats": {
-                          "type": "object",
-                          "properties": {
-                            "formattedDate": {
-                              "type": "string",
-                              "example": "11, Dec"
-                            },
-                            "daily_norma": {
-                              "type": "number",
-                              "example": 15000
-                            },
-                            "progress": {
-                              "type": "number",
-                              "example": 1.67
-                            },
-                            "servings": {
-                              "type": "number",
-                              "example": 1
                             }
                           }
                         }
@@ -1118,6 +1097,18 @@
         "tags": ["Water"],
         "security": [{ "Bearer": [] }],
         "summary": "Delete water",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "676955292622ee8bf99b807f"
+            },
+            "description": "The unique identifier of the water record to be updated"
+          }
+        ],
         "responses": {
           "204": {
             "description": "Record not found or already deleted",
@@ -1137,7 +1128,7 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "waterItems": {
+                        "waterList": {
                           "type": "object",
                           "properties": {
                             "_id": {
@@ -1166,27 +1157,6 @@
                               "type": "string",
                               "format": "date-time",
                               "example": "2024-12-23T12:18:49.279Z"
-                            }
-                          }
-                        },
-                        "dayStats": {
-                          "type": "object",
-                          "properties": {
-                            "formattedDate": {
-                              "type": "string",
-                              "example": "11, Dec"
-                            },
-                            "daily_norma": {
-                              "type": "number",
-                              "example": 15000
-                            },
-                            "progress": {
-                              "type": "number",
-                              "example": 1.67
-                            },
-                            "servings": {
-                              "type": "number",
-                              "example": 1
                             }
                           }
                         }
@@ -1482,6 +1452,8 @@
           "amount": {
             "type": "number",
             "description": "Amount of Water",
+            "minimum": 1,
+            "maximum": 15000,
             "example": "250"
           },
           "date": {
@@ -1542,6 +1514,8 @@
           "amount": {
             "type": "number",
             "example": 300,
+            "minimum": 1,
+            "maximum": 15000,
             "description": "The updated amount of water in milliliters"
           }
         },
