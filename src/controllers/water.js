@@ -1,5 +1,15 @@
-import { addWater, deleteWater, updateWater } from '../services/water.js';
+import { addWater, deleteWater, updateWater,getWater } from '../services/water.js';
 import createHttpError from 'http-errors';
+
+export const getWaterController = async (req, res) => {
+  const { _id: userId } = req.user;
+  const data = await getWater({ userId });
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully found records of water!',
+    data,
+  });
+};
 
 export const addWaterController = async (req, res) => {
   const { _id: userId } = req.user;

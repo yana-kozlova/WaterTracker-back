@@ -2,6 +2,42 @@
 import UserCollection from '../db/models/User.js';
 import WaterCollection from '../db/models/Water.js';
 
+
+
+
+
+export const getWater = async ({ userId }) => {
+  const water = await WaterCollection.find({ userId });
+
+  const curDayLocal = new Date().toLocaleDateString('en-CA').split(',')[0];
+  const dateRegexp = new RegExp(`^${curDayLocal}`);
+
+  const waterList = await WaterCollection.aggregate([
+    {
+      $match: {
+        userId: { $eq: userId },
+        date: { $regex: dateRegexp },
+      },
+    },
+    {
+      $sort: {
+        date: 1,
+      },
+    },
+  ]);
+
+  return waterList;
+};
+
+
+
+
+
+
+
+
+
+
 export const addWater = async (payload) => {
   const { userId, date } = await WaterCollection.create(payload);
 
