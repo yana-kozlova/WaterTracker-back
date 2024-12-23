@@ -2,21 +2,21 @@
 import UserCollection from '../db/models/User.js';
 import WaterCollection from '../db/models/Water.js';
 
-const today = new Date();
-const currentDate = today.toISOString().split('T')[0];
-const dateRegexp = new RegExp(`^${currentDate}`);
-
-
 export const addWater = async (payload) => {
-  const { userId, date } = await WaterCollection.create(payload);
-  const waterItems = await WaterCollection.find({ userId, date });
+  const { userId,date} = await WaterCollection.create(payload);
   const { daily_norma } = await UserCollection.findOne(userId);
+
+  const waterItems = await WaterCollection.find({ userId, date });
+
+  const today = new Date(date);
+  const currentDate = today.toISOString().split('T')[0];
+  const dateRegexp = new RegExp(`^${currentDate}`);
 
   const getServingsCount = await WaterCollection.aggregate([
     {
       $match: {
         userId: { $eq: userId },
-        // date: { $regex: dateRegexp },
+        date: { $regex: dateRegexp },
       },
     },
     {
@@ -36,12 +36,49 @@ export const addWater = async (payload) => {
   const servings = getServingsCount[0]?.count || 0;
   const totalAmount = getServingsCount[0]?.totalAmount || 0;
   const progress = Number(((totalAmount * 100) / daily_norma).toFixed(2));
-  const stats = { formattedDate, servings, totalAmount, progress };
+  const dayStats = { formattedDate, daily_norma, progress, servings };
 
-  return { waterItems, stats };
+  return { waterItems, dayStats };
 };
 
 export const deleteWater = async ({ _id, userId }) => {
+  const { daily_norma } = await UserCollection.findOne(userId);
+
+  const today = new Date();
+  const currentDate = today.toISOString().split('T')[0];
+  const dateRegexp = new RegExp(`^${currentDate}`);
+
+  console.log(dateRegexp);
+  console.log(_id, userId);
+
+  const getServingsCount = await WaterCollection.aggregate([
+    {
+      $match: {
+        userId: { $eq: userId },
+        date: { $regex: dateRegexp },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        count: { $sum: 1 },
+        totalAmount: { $sum: '$amount' },
+      },
+    },
+  ]);
+
+  const curDate = new Date();
+  const month = curDate.toLocaleString('US-us', { month: 'short' });
+  const day = curDate.getDate();
+  const formattedDate = `${day}, ${month}`;
+
+  const servings = getServingsCount[0]?.count || 0;
+  const totalAmount = getServingsCount[0]?.totalAmount || 0;
+  const progress = Number(((totalAmount * 100) / daily_norma).toFixed(2));
+  const dayStats = { formattedDate, daily_norma, progress, servings };
+
+  console.log(dayStats);
+
   const data = await WaterCollection.findOneAndDelete({ _id, userId });
   return data;
 };
@@ -60,11 +97,15 @@ export const updateWater = async ({ _id, userId, date, amount, options = {} }) =
 
   if (!rawResult || !rawResult.value) return null;
 
+  const today = new Date(date);
+  const currentDate = today.toISOString().split('T')[0];
+  const dateRegexp = new RegExp(`^${currentDate}`);
+
   const getServingsCount = await WaterCollection.aggregate([
     {
       $match: {
         userId: { $eq: userId },
-        // date: { $regex: dateRegexp },
+        date: { $regex: dateRegexp },
       },
     },
     {
@@ -76,14 +117,19 @@ export const updateWater = async ({ _id, userId, date, amount, options = {} }) =
     },
   ]);
 
+  const curDate = new Date(date);
+  const month = curDate.toLocaleString('US-us', { month: 'short' });
+  const day = curDate.getDate();
+  const formattedDate = `${day}, ${month}`;
+
   const servings = getServingsCount[0]?.count || 0;
   const totalAmount = getServingsCount[0]?.totalAmount || 0;
   const progress = Number(((totalAmount * 100) / daily_norma).toFixed(2));
 
-  const stats = { date, servings, totalAmount, progress };
+  const dayStats = { formattedDate, daily_norma, progress, servings };
 
   return {
-    data: { item: rawResult.value, stats },
+    data: { item: rawResult.value, dayStats },
     isNew: Boolean(rawResult.lastErrorObject.upserted),
   };
 };
