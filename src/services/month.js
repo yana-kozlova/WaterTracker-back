@@ -16,12 +16,14 @@ export const getMonthStats = async (userId) => {
           },
         },
         amount: 1,
+        servings: 1,
       },
     },
     {
       $group: {
         _id: '$formattedDate',
         totalAmount: { $sum: '$amount' },
+        totalServings: { $sum: 1 },
       },
     },
     {
@@ -29,6 +31,7 @@ export const getMonthStats = async (userId) => {
         progress: {
           $round: [{ $multiply: [{ $divide: ['$totalAmount', daily_norma] }, 100] }, 1],
         },
+        dailyNorma: daily_norma,
       },
     },
     {
@@ -39,13 +42,14 @@ export const getMonthStats = async (userId) => {
     {
       $project: {
         progress: 1,
+        totalServings: 1,
+        dailyNorma: 1,
       },
     },
   ]);
 
   return monthStats;
 };
-
 
 // {
 //     "_id": "2024-12-21",
