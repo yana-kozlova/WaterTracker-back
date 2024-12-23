@@ -2,6 +2,24 @@
 import UserCollection from '../db/models/User.js';
 import WaterCollection from '../db/models/Water.js';
 
+
+
+
+
+export const getWater = async ({ userId }) => {
+  const water = await WaterCollection.find({ userId });
+  return water;
+};
+
+
+
+
+
+
+
+
+
+
 export const addWater = async (payload) => {
   const { userId, date } = await WaterCollection.create(payload);
 
