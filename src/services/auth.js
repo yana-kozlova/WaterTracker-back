@@ -12,6 +12,7 @@ import { env } from '../utils/env.js';
 import { sendEmail } from '../utils/sendEmail.js';
 import { validateCode, getFullNameFromGoogleTokenPayload } from '../utils/googleOAuth2.js';
 import { accessTokenLifetime, refreshTokenLifetime } from '../constants/index.js';
+import fs from 'fs/promises';
 
 const createSession = () => {
   const accessToken = randomBytes(30).toString('base64');
