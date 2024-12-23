@@ -8,7 +8,7 @@ const userSchema = new Schema(
     },
     daily_norma: {
       type: Number,
-      default: 15000,
+      default: 1500,
     },
     name: {
       type: String,
