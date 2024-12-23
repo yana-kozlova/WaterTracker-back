@@ -966,6 +966,102 @@
           }
         }
       }
+    },
+    "/water/add": {
+      "post": {
+        "tags": ["Water"],
+        "summary": "Add water",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddWaterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created record amount of water!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully created record amount of water!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "example": "bHvTdZr6Vn/T2XOVh3X7y74kQkejGX1EjYThjH0K"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token expired / Session not found",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "BadRequestError"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Bad Request"
+                        },
+                        "errors": {
+                          "type": "object",
+                          "properties": {
+                            "email": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "example": ["Email must be a valid email address"]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {}
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1004,6 +1100,22 @@
             "type": "string",
             "description": "User's password",
             "example": "Password1"
+          }
+        }
+      },
+      "AddWaterRequest": {
+        "type": "object",
+        "required": ["amount", "date"],
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Amount of Water",
+            "example": "250"
+          },
+          "date": {
+            "type": "string",
+            "description": "Today's data",
+            "example": "2024-12-11T14:01:00.500Z"
           }
         }
       },
