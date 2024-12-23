@@ -1,15 +1,16 @@
 import UsersCollection from '../db/models/User.js';
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
-import Handlebars from "handlebars";
-import jwt from "jsonwebtoken";
+import Handlebars from 'handlebars';
+import jwt from 'jsonwebtoken';
+import path from 'path';
 import { randomBytes } from 'crypto';
 import SessionCollection from '../db/models/Session.js';
-import { TEMPLATE_DIR } from "../constants/index.js";
+import { TEMPLATE_DIR } from '../constants/index.js';
 import { SMTP } from '../constants/index.js';
 import { env } from '../utils/env.js';
-import { sendEmail } from "../utils/sendEmail.js";
-import { validateCode, getFullNameFromGoogleTokenPayload } from "../utils/googleOAuth2.js";
+import { sendEmail } from '../utils/sendEmail.js';
+import { validateCode, getFullNameFromGoogleTokenPayload } from '../utils/googleOAuth2.js';
 import { accessTokenLifetime, refreshTokenLifetime } from '../constants/index.js';
 
 const createSession = () => {
@@ -105,10 +106,7 @@ export const requestResetToken = async (email) => {
       expiresIn: '5m',
     },
   );
-  const resetPasswordTemplatePath = path.join(
-    TEMPLATE_DIR,
-    'reset-password-email.html',
-  );
+  const resetPasswordTemplatePath = path.join(TEMPLATE_DIR, 'reset-password-email.html');
 
   const templateSource = await fs.readFile(resetPasswordTemplatePath, 'utf-8');
 
@@ -146,16 +144,13 @@ export const resetPassword = async (payload) => {
 
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
 
-  await UsersCollection.updateOne(
-    { _id: user._id },
-    { password: encryptedPassword },
-  );
+  await UsersCollection.updateOne({ _id: user._id }, { password: encryptedPassword });
 };
-export const loginOrSignupWithGoogle = async code =>{
+export const loginOrSignupWithGoogle = async (code) => {
   const loginTicket = await validateCode(code);
   const payload = loginTicket.getPayload();
 
-  if(!payload){
+  if (!payload) {
     throw createHttpError(401);
   }
 
@@ -163,7 +158,7 @@ export const loginOrSignupWithGoogle = async code =>{
     email: payload.email,
   });
 
-  if(!user){
+  if (!user) {
     const password = await bcrypt.hash(randomBytes(10), 10);
     const username = getFullNameFromGoogleTokenPayload(payload);
 
