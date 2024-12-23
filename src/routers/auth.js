@@ -16,8 +16,19 @@ import {
   registerUserSchema,
   loginUserSchema,
   requestResetEmailSchema,
-  resetPasswordSchema, loginWithGoogleOAuthSchema,
+  resetPasswordSchema,
+  loginWithGoogleOAuthSchema,
+  updateUserSchema,
+  updateWaterRateSchema,
 } from '../validation/auth.js';
+import { authenticate } from '../middlewares/authenticate.js';
+import {
+  getUserController,
+  patchUserAvatarController,
+  patchUserController,
+  patchWaterRateController,
+} from '../controllers/auth.js';
+import { upload } from '../middlewares/multer.js';
 
 const authRouter = Router();
 
@@ -29,5 +40,15 @@ authRouter.post('/send-reset-email', validateBody(requestResetEmailSchema), ctrl
 authRouter.post('/reset-pwd', validateBody(resetPasswordSchema), ctrlWrapper(resetPasswordController));
 authRouter.get('/get-oauth-url', ctrlWrapper(getGoogleOAuthUrlController));
 authRouter.post('/confirm-oauth', validateBody(loginWithGoogleOAuthSchema), ctrlWrapper(loginWithGoogleController));
+
+authRouter.get('/current', authenticate, ctrlWrapper(getUserController));
+authRouter.patch('/current', authenticate, validateBody(updateUserSchema), ctrlWrapper(patchUserController));
+authRouter.patch(
+  '/water-rate',
+  authenticate,
+  validateBody(updateWaterRateSchema),
+  ctrlWrapper(patchWaterRateController),
+);
+authRouter.patch('/avatar', authenticate, upload.single('avatar_url'), ctrlWrapper(patchUserAvatarController));
 
 export default authRouter;

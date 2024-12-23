@@ -1,97 +1,97 @@
-import bcrypt from 'bcrypt';
-import createHttpError from 'http-errors';
-import { patchUser } from '../services/user.js';
-import { saveFileToUploadDir } from '../utils/dir/saveFileToUploadDir.js';
-import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
-import { env } from '../utils/env.js';
-import { cropUserData } from '../utils/userData.js';
+// // import bcrypt from 'bcrypt';
+// // import createHttpError from 'http-errors';
+// // import { patchUser } from '../services/user.js';
+// // import { saveFileToUploadDir } from '../utils/dir/saveFileToUploadDir.js';
+// // import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+// // import { env } from '../utils/env.js';
 
-export const getUserController = async (req, res) => {
-  const user = req.user;
 
-  if (!user) {
-    throw createHttpError(404, 'User not found');
-  }
+// export const getUserController = async (req, res) => {
+//   const user = req.user;
 
-  res.status(200).json({
-    status: 200,
-    message: 'Successfully found user!',
-    data: cropUserData(user),
-  });
-};
+//   if (!user) {
+//     throw createHttpError(404, 'User not found');
+//   }
 
-export const patchUserController = async (req, res) => {
-  const _id = req.user.id;
-  let payload;
+//   res.status(200).json({
+//     status: 200,
+//     message: 'Successfully found user!',
+//     data: cropUserData(user),
+//   });
+// };
 
-  if (req.body.old_password) {
-    const isPasswordValid = await bcrypt.compare(req.body.old_password, req.user.password);
-    if (!isPasswordValid) throw createHttpError(400, 'Old password is incorrect');
-    const hashPassword = await bcrypt.hash(req.body.new_password, 10);
+// export const patchUserController = async (req, res) => {
+//   const _id = req.user.id;
+//   let payload;
 
-    payload = {
-      ...req.body,
-      ...(req.body.new_password && { password: hashPassword }),
-    };
-  } else {
-    payload = { ...req.body };
-  }
+//   if (req.body.old_password) {
+//     const isPasswordValid = await bcrypt.compare(req.body.old_password, req.user.password);
+//     if (!isPasswordValid) throw createHttpError(400, 'Old password is incorrect');
+//     const hashPassword = await bcrypt.hash(req.body.new_password, 10);
 
-  const result = await patchUser(_id, payload);
+//     payload = {
+//       ...req.body,
+//       ...(req.body.new_password && { password: hashPassword }),
+//     };
+//   } else {
+//     payload = { ...req.body };
+//   }
 
-  if (!result) {
-    throw createHttpError(404, 'User not found');
-  }
+//   const result = await patchUser(_id, payload);
 
-  res.json({
-    status: 200,
-    message: `Successfully patched a user!`,
-    data: cropUserData(result.user),
-  });
-};
+//   if (!result) {
+//     throw createHttpError(404, 'User not found');
+//   }
 
-export const patchUserAvatarController = async (req, res) => {
-  const _id = req.user.id;
+//   res.json({
+//     status: 200,
+//     message: `Successfully patched a user!`,
+//     data: cropUserData(result.user),
+//   });
+// };
 
-  const avatar = req.file;
-  let photoUrl;
+// export const patchUserAvatarController = async (req, res) => {
+//   const _id = req.user.id;
 
-  if (avatar) {
-    if (env('ENABLE_CLOUDINARY') === 'true') {
-      photoUrl = await saveFileToCloudinary(avatar);
-    } else {
-      photoUrl = await saveFileToUploadDir(avatar);
-    }
-  }
+//   const avatar = req.file;
+//   let photoUrl;
 
-  const result = await patchUser(_id, {
-    ...req.body,
-    avatar_url: photoUrl,
-  });
+//   if (avatar) {
+//     if (env('ENABLE_CLOUDINARY') === 'true') {
+//       photoUrl = await saveFileToCloudinary(avatar);
+//     } else {
+//       photoUrl = await saveFileToUploadDir(avatar);
+//     }
+//   }
 
-  if (!result) {
-    throw createHttpError(404, 'User not found');
-  }
+//   const result = await patchUser(_id, {
+//     ...req.body,
+//     avatar_url: photoUrl,
+//   });
 
-  res.json({
-    status: 200,
-    message: `User's avatar is successfully updated!`,
-    data: cropUserData(result.user),
-  });
-};
+//   if (!result) {
+//     throw createHttpError(404, 'User not found');
+//   }
 
-export const patchWaterRateController = async (req, res) => {
-  const _id = req.user.id;
+//   res.json({
+//     status: 200,
+//     message: `User's avatar is successfully updated!`,
+//     data: cropUserData(result.user),
+//   });
+// };
 
-  const result = await patchUser(_id, { ...req.body });
+// export const patchWaterRateController = async (req, res) => {
+//   const _id = req.user.id;
 
-  if (!result) {
-    throw createHttpError(404, 'User not found');
-  }
+//   const result = await patchUser(_id, { ...req.body });
 
-  res.json({
-    status: 200,
-    message: `Daily Norma is successfully updated!`,
-    data: cropUserData(result.user),
-  });
-};
+//   if (!result) {
+//     throw createHttpError(404, 'User not found');
+//   }
+
+//   res.json({
+//     status: 200,
+//     message: `Daily Norma is successfully updated!`,
+//     data: cropUserData(result.user),
+//   });
+// };

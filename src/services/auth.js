@@ -11,6 +11,7 @@ import { env } from '../utils/env.js';
 import { sendEmail } from "../utils/sendEmail.js";
 import { validateCode, getFullNameFromGoogleTokenPayload } from "../utils/googleOAuth2.js";
 import { accessTokenLifetime, refreshTokenLifetime } from '../constants/index.js';
+import UserCollection from '../db/models/User.js';
 
 const createSession = () => {
   const accessToken = randomBytes(30).toString('base64');
@@ -179,4 +180,19 @@ export const loginOrSignupWithGoogle = async code =>{
     userId: user._id,
     ...newSession,
   });
+};
+
+export const patchUser = async (id, payload, options = {}) => {
+  const updatedUser = await UserCollection.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+    includeResultMetadata: true,
+    ...options,
+  });
+
+  if (!updatedUser || !updatedUser.value) return null;
+
+  return {
+    user: updatedUser.value,
+    isNew: Boolean(updatedUser?.lastErrorObject?.upserted),
+  };
 };
