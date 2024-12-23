@@ -12,8 +12,8 @@ const waterRouter = Router();
 
 waterRouter.use(authenticate);
 
-waterRouter.post('/add', validateBody(addWaterSchema),ctrlWrapper(addWaterController));
-waterRouter.delete('/:id',isValidId, ctrlWrapper(deleteWaterController));
+waterRouter.post('/add', validateBody(addWaterSchema), ctrlWrapper(addWaterController));
+waterRouter.delete('/:id', isValidId, ctrlWrapper(deleteWaterController));
 waterRouter.patch('/edit/:id',isValidId, validateBody(updateWaterSchema), ctrlWrapper(updateWaterController));
 
 
