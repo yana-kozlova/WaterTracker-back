@@ -970,6 +970,7 @@
     "/water/add": {
       "post": {
         "tags": ["Water"],
+        "security": [{ "Bearer": [] }],
         "summary": "Add water",
         "requestBody": {
           "required": true,
@@ -1000,9 +1001,58 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "accessToken": {
-                          "type": "string",
-                          "example": "bHvTdZr6Vn/T2XOVh3X7y74kQkejGX1EjYThjH0K"
+                        "waterItems": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "676955292622ee8bf99b807f"
+                            },
+                            "userId": {
+                              "type": "string",
+                              "example": "6768302f6a00361318b72bcd"
+                            },
+                            "date": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-12-11T14:01:00.500Z"
+                            },
+                            "amount": {
+                              "type": "number",
+                              "example": 250
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-12-23T12:18:49.279Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-12-23T12:18:49.279Z"
+                            }
+                          }
+                        },
+                        "dayStats": {
+                          "type": "object",
+                          "properties": {
+                            "formattedDate": {
+                              "type": "string",
+                              "example": "11, Dec"
+                            },
+                            "daily_norma": {
+                              "type": "number",
+                              "example": 15000
+                            },
+                            "progress": {
+                              "type": "number",
+                              "example": 1.67
+                            },
+                            "servings": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
                         }
                       }
                     }
@@ -1040,12 +1090,12 @@
                         "errors": {
                           "type": "object",
                           "properties": {
-                            "email": {
+                            "amount": {
                               "type": "array",
                               "items": {
                                 "type": "string"
                               },
-                              "example": ["Email must be a valid email address"]
+                              "example": ["Amount is required"]
                             }
                           }
                         }
@@ -1058,6 +1108,328 @@
           },
           "500": {
             "description": "InternalServerError",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/water/:id": {
+      "delete": {
+        "tags": ["Water"],
+        "security": [{ "Bearer": [] }],
+        "summary": "Delete water",
+        "responses": {
+          "204": {
+            "description": "Record not found or already deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 204
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Record not found or already deleted"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "waterItems": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "676955292622ee8bf99b807f"
+                            },
+                            "userId": {
+                              "type": "string",
+                              "example": "6768302f6a00361318b72bcd"
+                            },
+                            "date": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-12-11T14:01:00.500Z"
+                            },
+                            "amount": {
+                              "type": "number",
+                              "example": 250
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-12-23T12:18:49.279Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-12-23T12:18:49.279Z"
+                            }
+                          }
+                        },
+                        "dayStats": {
+                          "type": "object",
+                          "properties": {
+                            "formattedDate": {
+                              "type": "string",
+                              "example": "11, Dec"
+                            },
+                            "daily_norma": {
+                              "type": "number",
+                              "example": 15000
+                            },
+                            "progress": {
+                              "type": "number",
+                              "example": 1.67
+                            },
+                            "servings": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token expired / Session not found",
+            "content": {}
+          },
+          "404": {
+            "description": "Record not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Record water by id=676955292622ee8bf99b807f not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/water/edit/{id}": {
+      "patch": {
+        "tags": ["Water"],
+        "security": [{ "Bearer": [] }],
+        "summary": "Edit water record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "676955292622ee8bf99b807f"
+            },
+            "description": "The unique identifier of the water record to be updated"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditWaterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the water record",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Water record updated successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "waterItems": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "676955292622ee8bf99b807f"
+                            },
+                            "userId": {
+                              "type": "string",
+                              "example": "6768302f6a00361318b72bcd"
+                            },
+                            "date": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-12-11T14:01:00.500Z"
+                            },
+                            "amount": {
+                              "type": "number",
+                              "example": 250
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-12-23T12:18:49.279Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-12-23T12:18:49.279Z"
+                            }
+                          }
+                        },
+                        "dayStats": {
+                          "type": "object",
+                          "properties": {
+                            "formattedDate": {
+                              "type": "string",
+                              "example": "11, Dec"
+                            },
+                            "daily_norma": {
+                              "type": "number",
+                              "example": 15000
+                            },
+                            "progress": {
+                              "type": "number",
+                              "example": 1.67
+                            },
+                            "servings": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "content": {}
+          },
+          "404": {
+            "description": "Invalid or non-existent record ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": ":id not valid id"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": ":id not valid id"
+                        },
+                        "code": {
+                          "type": ["string", "null"],
+                          "example": null
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/home": {
+      "get": {
+        "tags": ["Water"],
+        "security": [{ "Bearer": [] }],
+        "summary": "Get statistics",
+        "responses": {
+          "200": {
+            "description": "Successfully found stats!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found stats!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "2024-12-11"
+                          },
+                          "totalServings": {
+                            "type": "integer",
+                            "example": 4
+                          },
+                          "progress": {
+                            "type": "number",
+                            "example": 7
+                          },
+                          "dailyNorma": {
+                            "type": "number",
+                            "example": 15000
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token expired / Session not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal server error",
             "content": {}
           }
         }
@@ -1157,6 +1529,24 @@
             "maxLength": 64
           }
         }
+      },
+      "EditWaterRequest": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-12-11T14:01:00.500Z",
+            "description": "The date and time associated with the water record"
+          },
+          "amount": {
+            "type": "number",
+            "example": 300,
+            "description": "The updated amount of water in milliliters"
+          }
+        },
+        "required": ["amount"],
+        "additionalProperties": false
       }
     },
     "securitySchemes": {
