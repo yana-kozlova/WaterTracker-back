@@ -25,6 +25,7 @@ const googleOauthClient = new OAuth2Client({
 export const generateAuthUrl = () =>
   googleOauthClient.generateAuthUrl({
     scope: ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'],
+    redirect_uri: oauthConfig.web.redirect_uris[0],
   });
 
 export const validateCode = async (code) => {
