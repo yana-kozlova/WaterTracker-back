@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { emailRegexp, genderList } from '../constants/user.js';
 
 export const updateUserSchema = Joi.object({
-  name: Joi.string().max(32).messages({
+  name: Joi.string().min(0).max(32).messages({
     'string.max': 'Name should have at most {#limit} characters',
   }),
   email: Joi.string().email().pattern(emailRegexp).messages({
