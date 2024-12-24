@@ -5,7 +5,11 @@
     "title": "WaterTracker",
     "description": "Трекер води є веб-застосунком, який дозволяє користувачеві стежити за своїм щоденним вживанням води. Застосунок має наступні функціональні компоненти: Головна сторінка, Журнал води та Налаштування."
   },
-  "servers": [{ "url": "https://watertracker-back-i1qk.onrender.com" }],
+  "servers": [
+    {
+      "url": "https://watertracker-back-i1qk.onrender.com"
+    }
+  ],
   "tags": [
     {
       "name": "Auth",
@@ -276,7 +280,11 @@
       "post": {
         "tags": ["Auth"],
         "summary": "Logout",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "required": false,
           "content": {}
@@ -297,7 +305,11 @@
       "post": {
         "tags": ["Auth"],
         "summary": "Refresh token",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "required": false,
           "content": {}
@@ -546,7 +558,11 @@
       "get": {
         "tags": ["Users"],
         "summary": "Get user data",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "required": false,
           "content": {}
@@ -610,7 +626,11 @@
       "patch": {
         "tags": ["Users"],
         "summary": "Update user data",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "required": false,
           "content": {
@@ -725,7 +745,11 @@
       "patch": {
         "tags": ["Users"],
         "summary": "Update user Daily Norma",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "required": false,
           "content": {
@@ -849,7 +873,11 @@
       "patch": {
         "tags": ["Users"],
         "summary": "Update user Avatar",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "required": false,
           "content": {
@@ -967,10 +995,90 @@
         }
       }
     },
+    "/water": {
+      "get": {
+        "tags": ["Water"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "Get all today's water",
+        "responses": {
+          "200": {
+            "description": "Successfully found water!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found water!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "676955292622ee8bf99b807f"
+                          },
+                          "userId": {
+                            "type": "string",
+                            "example": "6768302f6a00361318b72bcd"
+                          },
+                          "date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-12-11T14:01:00.500Z"
+                          },
+                          "amount": {
+                            "type": "number",
+                            "example": 250
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-12-23T12:18:49.279Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-12-23T12:18:49.279Z"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token expired / Session not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {}
+          }
+        }
+      }
+    },
     "/water/add": {
       "post": {
         "tags": ["Water"],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "summary": "Add water",
         "requestBody": {
           "required": true,
@@ -1095,7 +1203,11 @@
     "/water/:id": {
       "delete": {
         "tags": ["Water"],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "summary": "Delete water",
         "parameters": [
           {
@@ -1197,7 +1309,11 @@
     "/water/edit/{id}": {
       "patch": {
         "tags": ["Water"],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "summary": "Edit water record",
         "parameters": [
           {
@@ -1347,7 +1463,11 @@
     "/home": {
       "get": {
         "tags": ["Water"],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "summary": "Get statistics",
         "responses": {
           "200": {

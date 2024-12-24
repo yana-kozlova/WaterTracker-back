@@ -9,4 +9,3 @@ export const updateWaterSchema = Joi.object({
   amount: Joi.number(),
   date: Joi.string(),
 });
-

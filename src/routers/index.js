@@ -5,7 +5,6 @@ import usersRouter from './users.js';
 import waterRouter from './water.js';
 import monthRouter from './month.js';
 
-
 const router = Router();
 
 router.use('/auth', authRouter);
