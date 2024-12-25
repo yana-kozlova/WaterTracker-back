@@ -167,7 +167,13 @@ export const loginOrSignupWithGoogle = async (code) => {
       email: payload.email,
       username,
       password,
+      avatar_url: payload.picture || '',
+      daily_norma: 1500,
+      gender: 'female',
     });
+  } else if (payload.picture && !user.avatar_url) {
+    await UsersCollection.findByIdAndUpdate(user._id, { avatar_url: payload.picture });
+    user.avatar_url = payload.picture;
   }
   const newSession = createSession();
 
