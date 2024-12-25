@@ -6,10 +6,16 @@ const setupSession = (res, session) => {
   const { _id, refreshToken, refreshTokenValidUntil } = session;
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+    path: '/',
     expires: refreshTokenValidUntil,
   });
   res.cookie('sessionId', _id, {
     httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+    path: '/',
     expires: refreshTokenValidUntil,
   });
 };
