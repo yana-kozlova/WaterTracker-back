@@ -1387,27 +1387,6 @@
                               "example": "2024-12-23T12:18:49.279Z"
                             }
                           }
-                        },
-                        "dayStats": {
-                          "type": "object",
-                          "properties": {
-                            "formattedDate": {
-                              "type": "string",
-                              "example": "11, Dec"
-                            },
-                            "daily_norma": {
-                              "type": "number",
-                              "example": 15000
-                            },
-                            "progress": {
-                              "type": "number",
-                              "example": 1.67
-                            },
-                            "servings": {
-                              "type": "number",
-                              "example": 1
-                            }
-                          }
                         }
                       }
                     }
